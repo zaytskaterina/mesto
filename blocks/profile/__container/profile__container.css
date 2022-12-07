@@ -1,0 +1,14 @@
+.profile__container {
+  display: flex;
+  position: relative;
+  /*border: 1px solid red;*/
+}
+
+@media screen and (max-width: 560px) {
+  /*увязано с name-holder, там тоже от 560*/
+  .profile__container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

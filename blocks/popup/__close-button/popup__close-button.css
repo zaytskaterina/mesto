@@ -1,0 +1,35 @@
+.popup__close-button {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  left: 100%;
+  bottom: 322px;
+  /*если указываю в процентах, то уползает вниз, перепробовала разные значения, включая отрицательные, включая calc*/
+  background-image: url(../../../images/Close_Icon.png);
+  background-color: rgba(0, 0, 0, .0);
+  background-position: center;
+  background-repeat: no-repeat;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  /* border: 1px solid red;*/
+}
+
+.popup__close-button:hover {
+  opacity: .6;
+  transition: .8s ease-in-out;
+}
+
+@media screen and (max-width: 390px) {
+  .popup__close-button {
+    width: 26px;
+    height: 26px;
+    left: 90%;
+  }
+}
