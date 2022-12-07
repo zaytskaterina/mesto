@@ -2,10 +2,11 @@
   width: 190px;
   font-size: 24px;
   font-weight: 900;
-  line-height: 1.2;
+  line-height: calc(29 / 24);
   color: #000;
-  white-space: nowrap;
+  margin-left: 21px;
+  flex-basis: auto;
   text-overflow: ellipsis;
+  white-space: nowrap;
   overflow: hidden;
-  margin: 25px auto 31px 21px;
 }

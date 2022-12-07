@@ -14,15 +14,11 @@ function handleEditButton() {
     //сюда надо дописать, что value поля ФОРМЫ ВВОДА = textContent соответствующего поля из profile
     nameInput.value = profileName.textContent;
     jobInput.value = profileJob.textContent;
-
 }
-
-editButton.addEventListener('click', handleEditButton);
 
 function handleCloseButton() {
     popupEditProfile.classList.remove('popup_opened');
 }
-closeButton.addEventListener('click', handleCloseButton);
 
 function handleFormSubmit(evt) {
     evt.preventDefault();
@@ -30,4 +26,7 @@ function handleFormSubmit(evt) {
     profileJob.textContent = jobInput.value;
     handleCloseButton();
 }
+
+closeButton.addEventListener('click', handleCloseButton);
+editButton.addEventListener('click', handleEditButton);
 formElement.addEventListener('submit', handleFormSubmit);
