@@ -4,7 +4,6 @@
   position: relative;
   left: 100%;
   bottom: 322px;
-  /*если указываю в процентах, то уползает вниз, перепробовала разные значения, включая отрицательные, включая calc*/
   background-image: url(../../../images/Close_Icon.png);
   background-color: rgba(0, 0, 0, .0);
   background-position: center;
