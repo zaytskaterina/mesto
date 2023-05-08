@@ -1,26 +1,27 @@
 .popup__input {
-  width: 358px;
   border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
-  font-family: 'Inter', 'Arial', sans-serif;
-  font-style: normal;
-  font-weight: normal;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 8px;
+  padding-top: 8px;
   font-size: 14px;
-  line-height: 1.21;
-  color: #000;
-  padding: 0;
-  margin: 0 auto 30px;
-  /*border: 1px solid red;*/
+  line-height: calc(17 / 14);
+  outline-color: dodgerblue;
 }
 
-@media screen and (max-width: 590px) {
+.popup__input:nth-child(n + 1) {
+  margin-bottom: 22px;
+}
+
+.popup__input:nth-last-child(2) {
+  margin-bottom: 50px;
+}
+
+@media screen and (max-width: 768px) {
   .popup__input {
-    width: 84%;
+    font-size: 14px;
+    line-height: calc(17 / 14);
   }
-}
-
-@media screen and (max-width: 390px) {
-  .popup__input {
-    width: 238px;
+  .popup__input:nth-last-child(2) {
+    margin-bottom: 45px;
   }
 }
