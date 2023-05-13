@@ -17,7 +17,7 @@ const placeTemplate = document.querySelector("#place-template").content;
 const gallery = document.querySelector(".gallery");
 const popupCloseButtons = document.querySelectorAll(".popup__close");
 
-const initialCards = [
+initialCards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -44,13 +44,24 @@ const initialCards = [
   }
 ]; 
 
+/*
+А чем плох вариант с тогглом? Логика такова: одна функция вместо двух при булевости структуры аргументв звучит проще и эффективнее.
+Есть ли причины для дробления функции на две?
 
 function togglePopup(selector) {
   selector.classList.toggle("popup_opened");
+}*/
+
+function openPopup(selector) {
+  selector.classList.add("popup_opened");
+}
+
+function closePopup(selector) {
+  selector.classList.remove("popup_opened");
 }
 
 function openEditProfilePopup() {
-  togglePopup(popupEdit);
+  openPopup(popupEdit);
   nameEdit.value = nameProfile.textContent;
   jobEdit.value = jobProfile.textContent;
 }
@@ -59,20 +70,26 @@ function editFormSubmit(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameEdit.value;
   jobProfile.textContent = jobEdit.value;
-  togglePopup(popupEdit);
+  openPopup(popupEdit);
 }
 
 function openPopupImage(evt) {
   let popupImage = popupImageContainer.parentElement;
-  togglePopup(popupImage);
+  openPopup(popupImage);
   popupImageContainer.querySelector(".popup__image").src = evt.target.src;
   popupImageContainer.querySelector(".popup__subtitle").textContent =
     evt.target.alt;
 }
 
 function addCard(place) {
+  card = createCard(place)
+
+  gallery.prepend(card);
+}
+
+function createCard(place) {
   const card = placeTemplate.querySelector(".place").cloneNode(true);
-  let cardImage = card.querySelector(".place__image");
+  const cardImage = card.querySelector(".place__image");
 
   card
     .querySelector(".place__like")
@@ -90,11 +107,11 @@ function addCard(place) {
   cardImage.alt = place.name;
   cardImage.addEventListener("click", openPopupImage);
 
-  gallery.prepend(card);
+  return card
 }
 
 function openAddCardPopup() {
-  togglePopup(popupAdd);
+  openPopup(popupAdd);
   namePlaceAdd.value = "";
   linkAdd.value = "";
 }
@@ -102,7 +119,7 @@ function openAddCardPopup() {
 function addFormSubmit(evt) {
   evt.preventDefault();
   addCard({ name: namePlaceAdd.value, link: linkAdd.value });
-  togglePopup(popupAdd);
+  openPopup(popupAdd);
 }
 
 profileEditButton.addEventListener("click", openEditProfilePopup);
@@ -113,12 +130,12 @@ formAdd.addEventListener("submit", addFormSubmit);
 
 popupCloseButtons.forEach((closeButton) =>
   closeButton.addEventListener("click", () => {
-    togglePopup(closeButton.closest(".popup"));
+    closePopup(closeButton.closest(".popup"));
   })
 );
 
 
-function render() {
+function renderInitialCards() {
   initialCards.forEach((place) => addCard(place));
 }
-render();
+renderInitialCards();
