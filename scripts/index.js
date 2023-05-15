@@ -74,7 +74,7 @@ function editFormSubmit(evt) {
 }
 
 function openPopupImage(evt) {
-  let popupImage = popupImageContainer.parentElement;
+  const popupImage = popupImageContainer.parentElement;
   openPopup(popupImage);
   popupImageContainer.querySelector(".popup__image").src = evt.target.src;
   popupImageContainer.querySelector(".popup__subtitle").textContent =
@@ -82,7 +82,7 @@ function openPopupImage(evt) {
 }
 
 function addCard(place) {
-  card = createCard(place)
+  const card = createCard(place)
 
   gallery.prepend(card);
 }
