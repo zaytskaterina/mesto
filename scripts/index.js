@@ -1,93 +1,55 @@
-
+// селекторы попапа - редактировать профиль
 const popupEdit = document.querySelector(".popup_type_edit");
 const nameEdit = popupEdit.querySelector(".popup__input_elem_name");
 const jobEdit = popupEdit.querySelector(".popup__input_elem_job");
 const formEdit = popupEdit.querySelector(".popup__form");
+
+// селекторы попапа - добавить карточку
 const popupAdd = document.querySelector(".popup_type_add");
 const namePlaceAdd = popupAdd.querySelector(".popup__input_elem_name-place");
 const linkAdd = popupAdd.querySelector(".popup__input_elem_link");
 const formAdd = popupAdd.querySelector(".popup__form");
-const popupImageContainer = document.querySelector(".popup__container_type_image");
+
+const popupImageContainer = document.querySelector(
+  ".popup__container_type_image"
+);
+const popupImage = popupImageContainer.parentElement;
+
+// селекторы секции profile
 const profile = document.querySelector(".profile");
 const nameProfile = profile.querySelector(".profile__name");
 const jobProfile = profile.querySelector(".profile__job");
 const profileEditButton = profile.querySelector(".profile__edit-button");
 const cardAddButton = profile.querySelector(".profile__add-button");
+
 const placeTemplate = document.querySelector("#place-template").content;
+
 const gallery = document.querySelector(".gallery");
+
 const popupCloseButtons = document.querySelectorAll(".popup__close");
 
-initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-]; 
-
-/*
-А чем плох вариант с тогглом? Логика такова: одна функция вместо двух при булевости структуры аргументв звучит проще и эффективнее.
-Есть ли причины для дробления функции на две?
-
-function togglePopup(selector) {
-  selector.classList.toggle("popup_opened");
-}*/
-
-function openPopup(selector) {
-  selector.classList.add("popup_opened");
+function renderInitial() {
+  const initCards = initialCards.map((place) => addCard(place));
+  gallery.prepend(...initCards);
 }
 
-function closePopup(selector) {
-  selector.classList.remove("popup_opened");
-}
-
-function openEditProfilePopup() {
-  openPopup(popupEdit);
-  nameEdit.value = nameProfile.textContent;
-  jobEdit.value = jobProfile.textContent;
-}
-
-function editFormSubmit(evt) {
-  evt.preventDefault();
-  nameProfile.textContent = nameEdit.value;
-  jobProfile.textContent = jobEdit.value;
-  openPopup(popupEdit);
-}
-
-function openPopupImage(evt) {
-  const popupImage = popupImageContainer.parentElement;
-  openPopup(popupImage);
-  popupImageContainer.querySelector(".popup__image").src = evt.target.src;
-  popupImageContainer.querySelector(".popup__subtitle").textContent =
-    evt.target.alt;
-}
-
-function addCard(place) {
-  const card = createCard(place)
-
+function renderCard() {
+  const card = addCard({ name: namePlaceAdd.value, link: linkAdd.value });
   gallery.prepend(card);
 }
 
-function createCard(place) {
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
+  removeHandlerListenersPopup(popup);
+}
+
+function openPopup(popup) {
+  popup.classList.add("popup_opened");
+  setHandlerListenersPopup(popup);
+}
+
+// {{{ функции с логикой для popup's
+function addCard(place) {
   const card = placeTemplate.querySelector(".place").cloneNode(true);
   const cardImage = card.querySelector(".place__image");
 
@@ -105,21 +67,82 @@ function createCard(place) {
 
   cardImage.src = place.link;
   cardImage.alt = place.name;
-  cardImage.addEventListener("click", openPopupImage);
+  cardImage.addEventListener("click", () => {
+    openPopupImage(place);
+  });
 
-  return card
+  return card;
 }
 
-function openAddCardPopup() {
-  openPopup(popupAdd);
-  namePlaceAdd.value = "";
-  linkAdd.value = "";
+function editFormSubmit(evt) {
+  evt.preventDefault();
+  nameProfile.textContent = nameEdit.value;
+  jobProfile.textContent = jobEdit.value;
+  closePopup(popupEdit);
 }
 
 function addFormSubmit(evt) {
   evt.preventDefault();
-  addCard({ name: namePlaceAdd.value, link: linkAdd.value });
+  if (namePlaceAdd.value && linkAdd.value) {
+    renderCard();
+  }
+  closePopup(popupAdd);
+}
+//  }}}
+
+function openEditProfilePopup() {
+  openPopup(popupEdit);
+  nameEdit.value = nameProfile.textContent;
+  jobEdit.value = jobProfile.textContent;
+  setDefaultForm(formEdit);
+}
+
+function openAddCardPopup() {
   openPopup(popupAdd);
+  formAdd.reset();
+  setDefaultForm(formAdd);
+}
+
+function openPopupImage(place) {
+  openPopup(popupImage);
+  popupImageContainer.querySelector(".popup__subtitle").textContent =
+    place.name;
+  popupImageContainer.querySelector(".popup__image").src = place.link;
+}
+
+// скрыть ошибки при открытии попапа и тогл кнопки.
+function setDefaultForm(form) {
+  const inputList = Array.from(form.querySelectorAll(".popup__input"));
+  const button = form.querySelector(".popup__button");
+  toggleButton(inputList, button, "popup__button_disabled");
+  inputList.forEach((inputElem) => {
+    hideInputError(
+      form,
+      inputElem,
+      "popup__input_type_error",
+      "popup__error_visible"
+    );
+  });
+}
+
+function keyHandler(evt) {
+  if (evt.type === "click") {
+    evt.target.classList.contains("popup") ? closePopup(keyHandler.popup) : "";
+  }
+  if (evt.type === "keydown") {
+    evt.key === "Escape" ? closePopup(keyHandler.popup) : "";
+  }
+}
+
+function removeHandlerListenersPopup(popup) {
+  popup.parentElement.removeEventListener("keydown", keyHandler);
+  popup.removeEventListener("click", keyHandler);
+}
+
+function setHandlerListenersPopup(popup) {
+  keyHandler.popup = popup;
+  popup.parentElement.addEventListener("keydown", keyHandler);
+  popup.addEventListener("click", keyHandler);
 }
 
 profileEditButton.addEventListener("click", openEditProfilePopup);
@@ -134,8 +157,4 @@ popupCloseButtons.forEach((closeButton) =>
   })
 );
 
-
-function renderInitialCards() {
-  initialCards.forEach((place) => addCard(place));
-}
-renderInitialCards();
+renderInitial();

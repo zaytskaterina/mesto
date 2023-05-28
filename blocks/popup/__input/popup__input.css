@@ -5,23 +5,24 @@
   padding-top: 8px;
   font-size: 14px;
   line-height: calc(17 / 14);
-  outline-color: dodgerblue;
+  outline-color: transparent;
 }
 
 .popup__input:nth-child(n + 1) {
-  margin-bottom: 22px;
+  margin-top: 22px;
 }
 
-.popup__input:nth-last-child(2) {
-  margin-bottom: 50px;
+.popup__input:first-of-type {
+  margin-top: 0;
+}
+
+.popup__input:last-of-type {
+  margin-bottom: 0;
 }
 
 @media screen and (max-width: 768px) {
   .popup__input {
     font-size: 14px;
     line-height: calc(17 / 14);
-  }
-  .popup__input:nth-last-child(2) {
-    margin-bottom: 45px;
   }
 }
