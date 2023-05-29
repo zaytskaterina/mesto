@@ -112,6 +112,8 @@ function openPopupImage(place) {
     openPopup(popupImage); 
     popupSubtitleContent.textContent = place.name; 
     popupImageContent.src = place.link; 
+    popupImageContent.alt= "Общий план достопримечательности, распологающейся в локации "+ place.name;
+    //Добавлю текст-пояснение с 
   } 
 
 // скрыть ошибки при открытии попапа и тогл кнопки.
@@ -139,7 +141,7 @@ function handleOverlayEscape(evt) {
 }
 
 function removeHandlerListenersPopup(popup) {
-  popup.parentElement.removeEventListener("keydown", handleOverlayEscape);
+  document.removeEventListener("keydown", handleOverlayEscape);
   popup.removeEventListener("click", handleOverlayEscape);
 }
 
