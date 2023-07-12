@@ -4,14 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
+    <metahttp-server ./
       name="description"
       content="Сервис Mesto: интерактивная страница, куда можно добавлять фотографии, удалять их и ставить лайки"
     />
     <link rel="stylesheet" href="./pages/index.css" />
-    <script src="scripts/cards.js" defer></script>
-    <script src="scripts/validate.js" defer></script>
-    <script src="scripts/index.js" defer></script>
+    <script src="./scripts/cards.js" defer></script>
+    <script type="module" src="./scripts/Card.js"></script>
+    <script type="module" src="./scripts/FormValidator.js"></script>
+    <script type="module" src="./scripts/index.js"></script>
     <title>Mesto</title>
   </head>
   <body>
@@ -53,7 +54,7 @@
       </main>
 
       <footer class="footer">
-        <p class="footer__copyright">&copy; 2020 Mesto Russia / Катерина Зайцева</p>
+        <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
       </footer>
     </div>
 
@@ -142,7 +143,7 @@
       </div>
     </div>
 
-    <div class="popup">
+    <div class="popup popup_type_image">
       <div class="popup__container popup__container_type_image">
         <button
           aria-label="Закрыть"

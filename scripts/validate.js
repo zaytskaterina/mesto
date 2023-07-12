@@ -1,34 +1,44 @@
+// скрыть ошибки при открытии попапа и тогл кнопки.
+function setDefaultForm(form, config) {
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+  const button = form.querySelector(config.submitButtonSelector);
+  toggleButton(inputList, button, config.inactiveButtonClass);
+  inputList.forEach((input) => {
+    hideInputError(form, input, config.inputErrorClass, config.errorClass);
+  });
+}
+
 const showInputError = (
   form,
-  inputElem,
-  errorMsg,
+  input,
+  errorMessage,
   inputErrorClass,
   errorClass
 ) => {
-  const errorElem = form.querySelector(`.popup__error-${inputElem.name}`);
-  inputElem.classList.add(inputErrorClass);
-  errorElem.classList.add(errorClass);
-  errorElem.textContent = errorMsg;
+  const errorElement = form.querySelector(`.popup__error-${input.name}`);
+  input.classList.add(inputErrorClass);
+  errorElement.classList.add(errorClass);
+  errorElement.textContent = errorMessage;
 };
 
-const hideInputError = (form, inputElem, inputErrorClass, errorClass) => {
-  const errorElem = form.querySelector(`.popup__error-${inputElem.name}`);
-  inputElem.classList.remove(inputErrorClass);
-  errorElem.classList.remove(errorClass);
-  errorElem.textContent = "";
+const hideInputError = (form, input, inputErrorClass, errorClass) => {
+  const errorElement = form.querySelector(`.popup__error-${input.name}`);
+  input.classList.remove(inputErrorClass);
+  errorElement.classList.remove(errorClass);
+  errorElement.textContent = "";
 };
 
-const checkInputValidity = (form, inputElem, inputErrorClass, errorClass) => {
-  if (!inputElem.validity.valid) {
+const checkInputValidity = (form, input, inputErrorClass, errorClass) => {
+  if (!input.validity.valid) {
     showInputError(
       form,
-      inputElem,
-      inputElem.validationMessage,
+      input,
+      input.validationMessage,
       inputErrorClass,
       errorClass
     );
   } else {
-    hideInputError(form, inputElem, inputErrorClass, errorClass);
+    hideInputError(form, input, inputErrorClass, errorClass);
   }
 };
 
@@ -46,54 +56,29 @@ const toggleButton = (inputList, button, inactiveButtonClass) => {
   }
 };
 
-const setEventListeners = (
-  form,
-  inputSelector,
-  submitButtonSelector,
-  inactiveButtonClass,
-  inputErrorClass,
-  errorClass
-) => {
-  const inputList = Array.from(form.querySelectorAll(inputSelector));
-  const button = form.querySelector(submitButtonSelector);
+const setEventListeners = (form, config) => {
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+  const button = form.querySelector(config.submitButtonSelector);
 
-  inputList.forEach((inputElem) =>
-    inputElem.addEventListener("input", () => {
-      toggleButton(inputList, button, inactiveButtonClass);
-      checkInputValidity(form, inputElem, inputErrorClass, errorClass);
+  inputList.forEach((input) =>
+    input.addEventListener("input", () => {
+      toggleButton(inputList, button, config.inactiveButtonClass);
+      checkInputValidity(
+        form,
+        input,
+        config.inputErrorClass,
+        config.errorClass
+      );
     })
   );
 };
 
-const enableValidation = ({
-  formSelector,
-  inputSelector,
-  submitButtonSelector,
-  inactiveButtonClass,
-  inputErrorClass,
-  errorClass,
-}) => {
-  const formList = Array.from(document.querySelectorAll(formSelector));
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((form) => {
     form.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
-    setEventListeners(
-      form,
-      inputSelector,
-      submitButtonSelector,
-      inactiveButtonClass,
-      inputErrorClass,
-      errorClass
-    );
+    setEventListeners(form, config);
   });
 };
-
-enableValidation({
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
-});
