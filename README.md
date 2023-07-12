@@ -31,4 +31,4 @@ https://zaytskaterina.github.io/mesto/
 </ul>
 
 
-[![Катерина "Устала от Яндекса" Зайцева](https://zaytskaterina.github.io/mesto/)
+[Катерина "Устала от Яндекса" Зайцева](https://zaytskaterina.github.io/mesto/)
