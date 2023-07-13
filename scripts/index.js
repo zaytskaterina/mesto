@@ -63,21 +63,20 @@ function openPopup(popup) {
   setHandlerListenersPopup(popup);
 }
 
-function editFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameEdit.value;
   jobProfile.textContent = jobEdit.value;
   closePopup(popupEdit);
 }
 
-function addFormSubmit(evt) {
+function handleFormSubmit(evt) {
   evt.preventDefault();
   addCard(
     gallery,
     createCard({ name: namePlaceAdd.value, link: linkAdd.value })
   );
   formAdd.reset();
-  popupAddValidation.setDefaultForm();
   closePopup(popupAdd);
 }
 
@@ -89,8 +88,9 @@ function openEditProfilePopup() {
 }
 
 function openAddCardPopup() {
+  formAdd.reset();  
+  popupAddValidation.setDefaultForm();  
   openPopup(popupAdd);
-  popupAddValidation.setDefaultForm();
 }
 
 export function openPopupImage(place) {
@@ -122,8 +122,8 @@ function removeHandlerListenersPopup(popup) {
 profileEditButton.addEventListener("click", openEditProfilePopup);
 cardAddButton.addEventListener("click", openAddCardPopup);
 
-formEdit.addEventListener("submit", editFormSubmit);
-formAdd.addEventListener("submit", addFormSubmit);
+formEdit.addEventListener("submit", handleProfileFormSubmit);
+formAdd.addEventListener("submit", handleFormSubmit);
 
 popupCloseButtons.forEach((closeButton) =>
   closeButton.addEventListener("click", () => {
