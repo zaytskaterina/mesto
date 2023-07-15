@@ -41,11 +41,11 @@ export class Card {
 
   generateCard(funcOpenPopupImage) {
     this._card = this._getTemplate();
+    this._cardImage = this._card.querySelector(".place__image");
     this._onOpenPopup = funcOpenPopupImage;
     this._card.querySelector(".place__title").textContent = this._name;
-    this._card.querySelector(".place__image").src = this._link;
-    this._card.querySelector(".place__image").alt = this._name;
-
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._name;
     this._setHandlerListeners();
 
     return this._card;
