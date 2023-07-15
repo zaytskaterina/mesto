@@ -11,6 +11,10 @@ export class FormValidator {
 
 
   setDefaultForm() {
+    const inputList = Array.from(
+      this._formSelector.querySelectorAll(this._inputSelector)
+    );
+    const button = this._formSelector.querySelector(this._submitButtonSelector);
     this._toggleButton(inputList, button);
     inputList.forEach((input) => {
       this._hideInputError(input);

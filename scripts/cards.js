@@ -5,7 +5,7 @@ const initialCards = [
   },
   {
     name: "Шерегеш",
-    link: "./images/sheregesh.jpg",
+    link: "./images/sheregesh.jpg", 
   },
   {
     name: "Новосибирск",
